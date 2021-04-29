@@ -1,4 +1,4 @@
-package site.yoonsang.agetoeatschoollunch.view.views
+package site.yoonsang.agetoeatschoollunch.views
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

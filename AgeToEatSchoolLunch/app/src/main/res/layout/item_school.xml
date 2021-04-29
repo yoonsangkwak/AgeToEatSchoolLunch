@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="RegisterViewModel"
-            type="site.yoonsang.agetoeatschoollunch.view.viewmodels.RegisterViewModel" />
+            type="site.yoonsang.agetoeatschoollunch.viewmodels.RegisterViewModel" />
 
         <variable
             name="position"
@@ -16,33 +17,49 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
+        android:onClick="@{() -> RegisterViewModel.getSchool(position)}"
         android:paddingHorizontal="20dp"
         android:paddingVertical="10dp">
 
         <TextView
             android:id="@+id/item_school_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/eland"
-            android:textColor="@color/black"
             android:text="@{RegisterViewModel.getSchoolName(position)}"
-            app:layout_constraintBottom_toTopOf="@id/item_school_location"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/item_school_office_name"
             tools:text="성문고등학교" />
 
         <TextView
-            android:id="@+id/item_school_location"
-            android:layout_width="match_parent"
+            android:id="@+id/item_school_office_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="3dp"
             android:fontFamily="@font/eland"
             android:textSize="12sp"
-            android:text="@{RegisterViewModel.getSchoolLocation(position)}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/black"
+            android:text="@{RegisterViewModel.getOfficeName(position)}"
             app:layout_constraintTop_toBottomOf="@id/item_school_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/item_school_location"
+            tools:text="경기도교육청" />
+
+        <TextView
+            android:id="@+id/item_school_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/eland"
+            android:text="@{RegisterViewModel.getSchoolLocation(position)}"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_school_office_name"
             tools:text="경기도 안양시 만안구 어쩌구 저쩌구" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package site.yoonsang.agetoeatschoollunch.view.repository
+package site.yoonsang.agetoeatschoollunch.repository
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
@@ -6,8 +6,8 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import site.yoonsang.agetoeatschoollunch.BuildConfig
-import site.yoonsang.agetoeatschoollunch.view.api.SchoolAPI
-import site.yoonsang.agetoeatschoollunch.view.models.SchoolResponse
+import site.yoonsang.agetoeatschoollunch.api.SchoolAPI
+import site.yoonsang.agetoeatschoollunch.models.SchoolResponse
 
 class RegisterRepository(application: Application) {
 

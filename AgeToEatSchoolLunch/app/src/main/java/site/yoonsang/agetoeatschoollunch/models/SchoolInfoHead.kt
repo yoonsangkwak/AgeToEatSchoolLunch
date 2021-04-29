@@ -1,4 +1,4 @@
-package site.yoonsang.agetoeatschoollunch.view.models
+package site.yoonsang.agetoeatschoollunch.models
 
 
 import com.google.gson.annotations.SerializedName

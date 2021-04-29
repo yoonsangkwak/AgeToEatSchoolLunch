@@ -1,10 +1,10 @@
-package site.yoonsang.agetoeatschoollunch.view.views.adapter
+package site.yoonsang.agetoeatschoollunch.views.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import site.yoonsang.agetoeatschoollunch.databinding.ItemSchoolBinding
-import site.yoonsang.agetoeatschoollunch.view.viewmodels.RegisterViewModel
+import site.yoonsang.agetoeatschoollunch.viewmodels.RegisterViewModel
 
 class SchoolsAdapter(viewModel: RegisterViewModel): RecyclerView.Adapter<SchoolsAdapter.ViewHolder>() {
 

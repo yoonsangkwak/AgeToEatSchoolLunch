@@ -1,4 +1,4 @@
-package site.yoonsang.agetoeatschoollunch.view.api
+package site.yoonsang.agetoeatschoollunch.api
 
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
@@ -8,7 +8,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import site.yoonsang.agetoeatschoollunch.view.models.SchoolResponse
+import site.yoonsang.agetoeatschoollunch.models.SchoolResponse
 
 interface SchoolAPI {
 

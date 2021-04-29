@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".view.views.RegisterActivity">
+    tools:context=".views.RegisterActivity">
 
     <data>
         <variable
             name="RegisterViewModel"
-            type="site.yoonsang.agetoeatschoollunch.view.viewmodels.RegisterViewModel" />
+            type="site.yoonsang.agetoeatschoollunch.viewmodels.RegisterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
