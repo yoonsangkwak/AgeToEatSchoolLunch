@@ -3,6 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="RegisterViewModel"
+            type="site.yoonsang.agetoeatschoollunch.view.viewmodels.RegisterViewModel" />
+
+        <variable
+            name="position"
+            type="Integer" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,6 +25,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/eland"
             android:textColor="@color/black"
+            android:text="@{RegisterViewModel.getSchoolName(position)}"
             app:layout_constraintBottom_toTopOf="@id/item_school_location"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,6 +38,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/eland"
             android:textSize="12sp"
+            android:text="@{RegisterViewModel.getSchoolLocation(position)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

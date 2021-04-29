@@ -2,10 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".view.RegisterActivity">
+    tools:context=".view.views.RegisterActivity">
 
     <data>
-
+        <variable
+            name="RegisterViewModel"
+            type="site.yoonsang.agetoeatschoollunch.view.viewmodels.RegisterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,19 +53,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/register_top_layout">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_search"
-                app:tint="@color/white" />
-
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="10dp"
                 android:layout_weight="1"
+                android:text="@={RegisterViewModel.schoolName}"
                 android:background="@null"
                 android:fontFamily="@font/eland"
                 android:hint="학교를 검색하세요"
@@ -74,9 +70,11 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{() -> RegisterViewModel.getSchools()}"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_close"
+                android:src="@drawable/ic_search"
                 app:tint="@color/white" />
+
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
