@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import site.yoonsang.agetoeatschoollunch.config.ApplicationClass
 import site.yoonsang.agetoeatschoollunch.databinding.ItemSchoolBinding
 import site.yoonsang.agetoeatschoollunch.src.main.MainActivity
-import site.yoonsang.agetoeatschoollunch.src.register.models.SchoolInfoRow
+import site.yoonsang.agetoeatschoollunch.src.register.models.SchoolInfo
 
-class SchoolsAdapter(val context: Context, private val data: List<SchoolInfoRow>) :
+class SchoolsAdapter(val context: Context, private val data: List<SchoolInfo>) :
     RecyclerView.Adapter<SchoolsAdapter.ViewHolder>() {
 
     private val inflater =

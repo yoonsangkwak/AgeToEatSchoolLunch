@@ -22,7 +22,11 @@ class RegisterPresenter(val view: RegisterContract.View) {
                 call: Call<SchoolResponse>,
                 response: Response<SchoolResponse>
             ) {
-                view.getSchoolResponseSuccess(response.body() as SchoolResponse)
+                if (response.body() != null) {
+                    view.getSchoolResponseSuccess(response.body() as SchoolResponse)
+                } else {
+                    view.getSchoolResponseFailure(response.message())
+                }
             }
 
             override fun onFailure(call: Call<SchoolResponse>, t: Throwable) {

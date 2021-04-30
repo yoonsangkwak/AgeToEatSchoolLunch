@@ -3,7 +3,7 @@ package site.yoonsang.agetoeatschoollunch.src.register.models
 
 import com.google.gson.annotations.SerializedName
 
-data class SchoolInfoHeadResult(
+data class InfoHeadResult(
     @SerializedName("CODE")
     val code: String,
     @SerializedName("MESSAGE")

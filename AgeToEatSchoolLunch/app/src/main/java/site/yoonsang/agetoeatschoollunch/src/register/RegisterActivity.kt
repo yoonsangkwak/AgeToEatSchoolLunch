@@ -23,7 +23,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
 
     override fun getSchoolResponseSuccess(response: SchoolResponse) {
         dismissLoadingDialog()
-        val schoolList = response.schoolInfo[1].schoolInfoRow
+        val schoolList = response.schoolResponseInfo[1].schoolInfo
         binding.registerRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = SchoolsAdapter(context, schoolList)

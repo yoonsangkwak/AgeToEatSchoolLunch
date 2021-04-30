@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class SchoolResponse(
     @SerializedName("schoolInfo")
-    val schoolInfo: List<SchoolInfo>
+    val schoolResponseInfo: List<SchoolResponseInfo>
 )
