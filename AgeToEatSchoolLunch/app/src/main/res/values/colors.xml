@@ -11,4 +11,5 @@
     <color name="main_two">#FF375F70</color>
     <color name="main_three">#FFE5F2E1</color>
     <color name="unselected">#FFA6B2B7</color>
+    <color name="carousel_arrow">#DEDEDE</color>
 </resources>
