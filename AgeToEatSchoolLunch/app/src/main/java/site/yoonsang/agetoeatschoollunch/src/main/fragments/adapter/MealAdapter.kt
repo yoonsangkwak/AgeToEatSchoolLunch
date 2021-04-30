@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import site.yoonsang.agetoeatschoollunch.databinding.ItemMenuBinding
 
-class LunchAdapter(
+class MealAdapter(
     context: Context,
     private val menuList: List<String>,
     private val allergyList: MutableList<String>
-) : RecyclerView.Adapter<LunchAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<MealAdapter.ViewHolder>() {
 
     private val inflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

@@ -6,7 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".src.main.fragments.LunchFragment">
 
+    <TextView
+        android:id="@+id/lunch_no_diet_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fontFamily="@font/eland"
+        android:visibility="gone"
+        android:gravity="center"
+        android:text="중식 식단정보가 없습니다."
+        android:textSize="18sp" />
+
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/lunch_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -37,7 +48,9 @@
                 android:id="@+id/lunch_origin_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"/>
+                android:layout_marginHorizontal="20dp"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_origin" />
 
         </LinearLayout>
 

@@ -2,12 +2,14 @@ package site.yoonsang.agetoeatschoollunch.src.main.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.json.JSONObject
 import site.yoonsang.agetoeatschoollunch.R
 import site.yoonsang.agetoeatschoollunch.config.BaseFragment
 import site.yoonsang.agetoeatschoollunch.databinding.FragmentLunchBinding
-import site.yoonsang.agetoeatschoollunch.src.main.fragments.adapter.LunchAdapter
+import site.yoonsang.agetoeatschoollunch.src.main.fragments.adapter.MealAdapter
+import site.yoonsang.agetoeatschoollunch.src.main.fragments.adapter.MealOriginAdapter
 import site.yoonsang.agetoeatschoollunch.src.main.models.MealInfo
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -18,30 +20,45 @@ class LunchFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mealInfo = arguments?.getSerializable("meal") as MealInfo
+        if (arguments == null) {
+            binding.lunchNestedScrollView.visibility = View.GONE
+            binding.lunchNoDietText.visibility = View.VISIBLE
+        } else {
+            binding.lunchNestedScrollView.visibility = View.VISIBLE
+            binding.lunchNoDietText.visibility = View.GONE
 
-        binding.lunchCalText.text = mealInfo.calInfo
-        val splitMenuList = mealInfo.mealMenu.split("<br/>")
-        val menuList = mutableListOf<String>()
-        val allergyList = mutableListOf<String>()
-        for (splitMenu in splitMenuList) {
-            val items = splitMenu.split(".")
-            menuList.add(items[0])
-            val temp = items.drop(1)
-            val allergies = temp.dropLast(1)
-            var allergy = ""
-            for (i in allergies.indices) {
-                allergy += allergyIdToName(allergies[i])
-                if (i != allergies.size - 1) {
-                    allergy += ", "
+            val mealInfo = arguments?.getSerializable("meal") as MealInfo
+
+            binding.lunchCalText.text = mealInfo.calInfo
+            val splitMenuList = mealInfo.mealMenu.split("<br/>")
+            val menuList = mutableListOf<String>()
+            val allergyList = mutableListOf<String>()
+            for (splitMenu in splitMenuList) {
+                val items = splitMenu.split(".")
+                menuList.add(items[0])
+                val temp = items.drop(1)
+                val allergies = temp.dropLast(1)
+                var allergy = ""
+                for (i in allergies.indices) {
+                    allergy += allergyIdToName(allergies[i])
+                    if (i != allergies.size - 1) {
+                        allergy += ", "
+                    }
                 }
+                allergyList.add(allergy)
             }
-            allergyList.add(allergy)
-        }
 
-        binding.lunchMenuRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = LunchAdapter(context, menuList, allergyList)
+            val originList = mealInfo.mealOrigin.split("<br/>")
+
+            binding.lunchMenuRecyclerView.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = MealAdapter(context, menuList, allergyList)
+            }
+
+            binding.lunchOriginRecyclerView.apply {
+                layoutManager = GridLayoutManager(context, 2)
+                adapter = MealOriginAdapter(context, originList)
+            }
         }
     }
 
@@ -60,7 +77,6 @@ class LunchFragment :
         val jsonData = buffer.toString()
 
         val jsonObject = JSONObject(jsonData)
-        return jsonObject.optString(allergyId, "text on no value")
+        return jsonObject.optString(allergyId, "")
     }
-
 }
