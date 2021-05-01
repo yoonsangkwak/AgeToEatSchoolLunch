@@ -1,8 +1,11 @@
 package site.yoonsang.agetoeatschoollunch.src.main
 
+import android.app.DatePickerDialog
+import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
+import site.yoonsang.agetoeatschoollunch.R
 import site.yoonsang.agetoeatschoollunch.config.ApplicationClass
 import site.yoonsang.agetoeatschoollunch.config.BaseActivity
 import site.yoonsang.agetoeatschoollunch.databinding.ActivityMainBinding
@@ -24,15 +27,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val now = System.currentTimeMillis()
-        val test = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
-        val mealDate = test.format(now)!!
-
-        getMeal(mealDate)
-
         binding.mainSchoolNameText.text = ApplicationClass.sSharedPref.getString("schoolName", null)
-        val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd (E)", Locale.KOREA)
-        binding.mainTodayText.text = simpleDateFormat.format(now)
+
+        val now = System.currentTimeMillis()
+        val simpleDateFormat = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
+        val todayDate = simpleDateFormat.format(now)!!
+
+        setSelectDate(now)
+        getMeal(todayDate)
+
+        binding.mainCalendarImage.setOnClickListener {
+            setDate()
+        }
     }
 
     override fun getMealResponseSuccess(response: MealResponse) {
@@ -57,6 +63,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     }
                 }
             }
+        } else {
+            fragmentBreakfast.arguments = null
+            fragmentLunch.arguments = null
+            fragmentDinner.arguments = null
         }
         setViewPager()
     }
@@ -82,5 +92,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             tab.text = tabTextList[position]
         }.attach()
         binding.mainMealTimeTabLayout.selectTab(binding.mainMealTimeTabLayout.getTabAt(1))
+    }
+
+    private fun setDate() {
+        val cal = Calendar.getInstance()
+        val cYear = cal.get(Calendar.YEAR)
+        val cMonth = cal.get(Calendar.MONTH)
+        val cDay = cal.get(Calendar.DAY_OF_MONTH)
+
+        val picker =
+            DatePickerDialog(this, { view, year, month, dayOfMonth ->
+                val selectDate =
+                    "${year}${String.format("%02d", month + 1)}${String.format("%02d", dayOfMonth)}"
+                getMeal(selectDate)
+                val calendar = Calendar.getInstance()
+                calendar.set(year, month, dayOfMonth)
+                val selectDateTime = calendar.timeInMillis
+                setSelectDate(selectDateTime)
+            }, cYear, cMonth, cDay)
+        picker.show()
+    }
+
+    private fun setSelectDate(time: Long) {
+        val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd (E)", Locale.KOREA)
+        binding.mainTodayText.text = simpleDateFormat.format(time)
     }
 }
