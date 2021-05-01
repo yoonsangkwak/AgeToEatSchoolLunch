@@ -1,9 +1,6 @@
 package site.yoonsang.agetoeatschoollunch.src.main
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import site.yoonsang.agetoeatschoollunch.config.ApplicationClass
@@ -26,7 +23,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         val now = System.currentTimeMillis()
         val test = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
         val mealDate = test.format(now)!!
@@ -40,22 +37,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun getMealResponseSuccess(response: MealResponse) {
         dismissLoadingDialog()
-        for (meal in response.mealResponseInfo[1].mealInfo) {
-            when (meal.mealType) {
-                "조식" -> {
-                    val bundle = Bundle()
-                    bundle.putSerializable("meal", meal)
-                    fragmentBreakfast.arguments = bundle
-                }
-                "중식" -> {
-                    val bundle = Bundle()
-                    bundle.putSerializable("meal", meal)
-                    fragmentLunch.arguments = bundle
-                }
-                "석식" -> {
-                    val bundle = Bundle()
-                    bundle.putSerializable("meal", meal)
-                    fragmentDinner.arguments = bundle
+        if (response.mealResponseInfo != null) {
+            for (meal in response.mealResponseInfo[1].mealInfo) {
+                when (meal.mealType) {
+                    "조식" -> {
+                        val bundle = Bundle()
+                        bundle.putSerializable("meal", meal)
+                        fragmentBreakfast.arguments = bundle
+                    }
+                    "중식" -> {
+                        val bundle = Bundle()
+                        bundle.putSerializable("meal", meal)
+                        fragmentLunch.arguments = bundle
+                    }
+                    "석식" -> {
+                        val bundle = Bundle()
+                        bundle.putSerializable("meal", meal)
+                        fragmentDinner.arguments = bundle
+                    }
                 }
             }
         }
