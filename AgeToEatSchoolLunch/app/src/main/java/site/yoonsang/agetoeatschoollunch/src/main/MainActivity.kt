@@ -3,6 +3,9 @@ package site.yoonsang.agetoeatschoollunch.src.main
 import android.app.DatePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import site.yoonsang.agetoeatschoollunch.R
@@ -27,7 +30,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.mainSchoolNameText.text = ApplicationClass.sSharedPref.getString("schoolName", null)
+        setSupportActionBar(binding.mainToolbar)
+        supportActionBar?.let {
+            title = null
+        }
+        binding.mainToolbarTitle.text = ApplicationClass.sSharedPref.getString("schoolName", null)
+
 
         val now = System.currentTimeMillis()
         val simpleDateFormat = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
@@ -35,10 +43,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
         setSelectDate(now)
         getMeal(todayDate)
-
-        binding.mainCalendarImage.setOnClickListener {
-            setDate()
-        }
     }
 
     override fun getMealResponseSuccess(response: MealResponse) {
@@ -116,5 +120,30 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private fun setSelectDate(time: Long) {
         val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd (E)", Locale.KOREA)
         binding.mainTodayText.text = simpleDateFormat.format(time)
+    }
+
+    override fun onBackPressed() {
+        if (binding.mainDrawerLayout.isDrawerOpen(GravityCompat.END)) {
+            binding.mainDrawerLayout.closeDrawer(GravityCompat.END)
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.main_calendar_image -> {
+                setDate()
+            }
+            R.id.main_settings_image -> {
+                binding.mainDrawerLayout.openDrawer(GravityCompat.END)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
     }
 }

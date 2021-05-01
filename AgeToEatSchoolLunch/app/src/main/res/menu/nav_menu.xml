@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_set_allergy"
+        android:icon="@drawable/ic_bad"
+        android:title="알러지 설정하기" />
+    <item
+        android:id="@+id/nav_change_school"
+        android:icon="@drawable/ic_school"
+        android:title="학교 변경하기" />
+</menu>
