@@ -1,6 +1,7 @@
 package site.yoonsang.agetoeatschoollunch.src.main
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.Menu
@@ -12,6 +13,7 @@ import site.yoonsang.agetoeatschoollunch.R
 import site.yoonsang.agetoeatschoollunch.config.ApplicationClass
 import site.yoonsang.agetoeatschoollunch.config.BaseActivity
 import site.yoonsang.agetoeatschoollunch.databinding.ActivityMainBinding
+import site.yoonsang.agetoeatschoollunch.src.license.LicenseActivity
 import site.yoonsang.agetoeatschoollunch.src.main.adapter.VPAdapter
 import site.yoonsang.agetoeatschoollunch.src.main.fragments.BreakfastFragment
 import site.yoonsang.agetoeatschoollunch.src.main.fragments.DinnerFragment
@@ -34,6 +36,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         supportActionBar?.let {
             title = null
         }
+        setClickSettingsMenu()
         binding.mainToolbarTitle.text = ApplicationClass.sSharedPref.getString("schoolName", null)
 
 
@@ -120,6 +123,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private fun setSelectDate(time: Long) {
         val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd (E)", Locale.KOREA)
         binding.mainTodayText.text = simpleDateFormat.format(time)
+    }
+
+    private fun setClickSettingsMenu() {
+        binding.mainNavView.setNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_set_allergy -> {
+                    showCustomToast("서비스 준비중입니다.")
+                }
+                R.id.nav_change_school -> {
+                    showCustomToast("서비스 준비중입니다.")
+
+                }
+                R.id.nav_faq -> {
+                    showCustomToast("서비스 준비중입니다.")
+
+                }
+                R.id.nav_open_source_license -> {
+                    startActivity(Intent(this, LicenseActivity::class.java))
+                }
+            }
+            false
+        }
     }
 
     override fun onBackPressed() {
