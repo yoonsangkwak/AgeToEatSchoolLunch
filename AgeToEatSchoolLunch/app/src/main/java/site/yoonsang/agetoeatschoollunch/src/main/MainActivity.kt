@@ -13,6 +13,7 @@ import site.yoonsang.agetoeatschoollunch.R
 import site.yoonsang.agetoeatschoollunch.config.ApplicationClass
 import site.yoonsang.agetoeatschoollunch.config.BaseActivity
 import site.yoonsang.agetoeatschoollunch.databinding.ActivityMainBinding
+import site.yoonsang.agetoeatschoollunch.src.faq.FaqActivity
 import site.yoonsang.agetoeatschoollunch.src.license.LicenseActivity
 import site.yoonsang.agetoeatschoollunch.src.main.adapter.VPAdapter
 import site.yoonsang.agetoeatschoollunch.src.main.fragments.BreakfastFragment
@@ -136,8 +137,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
                 }
                 R.id.nav_faq -> {
-                    showCustomToast("서비스 준비중입니다.")
-
+                    startActivity(Intent(this, FaqActivity::class.java))
                 }
                 R.id.nav_open_source_license -> {
                     startActivity(Intent(this, LicenseActivity::class.java))
