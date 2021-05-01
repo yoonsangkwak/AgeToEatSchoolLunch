@@ -20,6 +20,7 @@ import site.yoonsang.agetoeatschoollunch.src.main.fragments.BreakfastFragment
 import site.yoonsang.agetoeatschoollunch.src.main.fragments.DinnerFragment
 import site.yoonsang.agetoeatschoollunch.src.main.fragments.LunchFragment
 import site.yoonsang.agetoeatschoollunch.src.main.models.MealResponse
+import site.yoonsang.agetoeatschoollunch.src.register.RegisterActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -133,8 +134,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     showCustomToast("서비스 준비중입니다.")
                 }
                 R.id.nav_change_school -> {
-                    showCustomToast("서비스 준비중입니다.")
-
+                    startActivity(Intent(this, RegisterActivity::class.java))
                 }
                 R.id.nav_faq -> {
                     startActivity(Intent(this, FaqActivity::class.java))

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import site.yoonsang.agetoeatschoollunch.config.ApplicationClass
 import site.yoonsang.agetoeatschoollunch.databinding.ItemSchoolBinding
 import site.yoonsang.agetoeatschoollunch.src.main.MainActivity
+import site.yoonsang.agetoeatschoollunch.src.register.RegisterActivity
 import site.yoonsang.agetoeatschoollunch.src.register.models.SchoolInfo
 
 class SchoolsAdapter(val context: Context, private val data: List<SchoolInfo>) :
@@ -39,7 +40,9 @@ class SchoolsAdapter(val context: Context, private val data: List<SchoolInfo>) :
             ApplicationClass.sSharedPref.edit().putString("schoolCode", data[position].schoolCode).apply()
             ApplicationClass.sSharedPref.edit().putString("schoolName", data[position].schoolName).apply()
             val intent = Intent(context, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             context.startActivity(intent)
+//            (context as RegisterActivity).finish()
         }
     }
 
