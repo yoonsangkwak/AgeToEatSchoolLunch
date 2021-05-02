@@ -33,19 +33,22 @@ class LunchFragment :
             val splitMenuList = mealInfo.mealMenu.split("<br/>")
             val menuList = mutableListOf<String>()
             val allergyList = mutableListOf<String>()
+
             for (splitMenu in splitMenuList) {
-                val items = splitMenu.split(".")
-                menuList.add(items[0])
-                val temp = items.drop(1)
-                val allergies = temp.dropLast(1)
+                val allergiesString = splitMenu.replace("[^\\d.]".toRegex(), "")
+                val allergies = allergiesString.split(".").dropLast(1)
                 var allergy = ""
-                for (i in allergies.indices) {
-                    allergy += allergyIdToName(allergies[i])
-                    if (i != allergies.size - 1) {
-                        allergy += ", "
+                for (idx in allergies.indices) {
+                    allergy += if (idx != allergies.size - 1) {
+                        "${allergyIdToName(allergies[idx])}, "
+                    } else {
+                        allergyIdToName(allergies[idx])
                     }
                 }
                 allergyList.add(allergy)
+
+                val menu = splitMenu.replace("[a-zA-Z0-9]|\\.".toRegex(), "")
+                menuList.add(menu)
             }
 
             val originList = mealInfo.mealOrigin.split("<br/>")
