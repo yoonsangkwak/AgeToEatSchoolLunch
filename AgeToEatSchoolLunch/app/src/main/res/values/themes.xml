@@ -20,4 +20,8 @@
         <item name="colorControlActivated">@color/main_one</item>
         <item name="colorControlHighlight">@color/main_two</item>
     </style>
+    <style name="CustomCheckbox02" parent="@style/Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/allergy_checkbox_selector</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 </resources>

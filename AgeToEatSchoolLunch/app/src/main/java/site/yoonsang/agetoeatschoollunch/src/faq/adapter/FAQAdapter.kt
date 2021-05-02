@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import site.yoonsang.agetoeatschoollunch.localData.FAQ
 import site.yoonsang.agetoeatschoollunch.databinding.ItemFaqBinding
 
 class FAQAdapter(context: Context) : RecyclerView.Adapter<FAQAdapter.ViewHolder>() {
@@ -59,8 +60,3 @@ class FAQAdapter(context: Context) : RecyclerView.Adapter<FAQAdapter.ViewHolder>
 
     override fun getItemCount(): Int = data.size
 }
-
-data class FAQ(
-    val question: String,
-    val answer: String
-)

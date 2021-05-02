@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import site.yoonsang.agetoeatschoollunch.localData.License
 import site.yoonsang.agetoeatschoollunch.databinding.ItemLicenseBinding
 
 class LicenseAdapter(private val context: Context): RecyclerView.Adapter<LicenseAdapter.ViewHolder>() {
@@ -43,8 +44,3 @@ class LicenseAdapter(private val context: Context): RecyclerView.Adapter<License
 
     override fun getItemCount(): Int = data.size
 }
-
-data class License(
-    val name: String,
-    val url: String
-)

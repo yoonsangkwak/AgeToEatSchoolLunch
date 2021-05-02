@@ -6,11 +6,14 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import site.yoonsang.agetoeatschoollunch.localData.DBHelper
+import site.yoonsang.agetoeatschoollunch.localData.DB_NAME
+import site.yoonsang.agetoeatschoollunch.localData.DB_VERSION
 import java.util.concurrent.TimeUnit
 
 class ApplicationClass: Application() {
 
-    val BASE_URL = "https://open.neis.go.kr/"
+    private val BASE_URL = "https://open.neis.go.kr/"
 
     companion object {
         // 만들어져있는 SharedPreferences를 사용해야합니다. 재생성하지 않도록 유념해주세요
@@ -18,11 +21,14 @@ class ApplicationClass: Application() {
 
         // Retrofit 인스턴스, 앱 실행시 한번만 생성하여 사용합니다.
         lateinit var sRetrofit: Retrofit
+
+        lateinit var sDBHelper: DBHelper
     }
 
     override fun onCreate() {
         super.onCreate()
         sSharedPref = applicationContext.getSharedPreferences("AgeToEatSchoolLunch", MODE_PRIVATE)
+        sDBHelper = DBHelper(applicationContext, DB_NAME, DB_VERSION)
         // 레프로핏 인스턴스 생성
         initRetrofitInstance()
     }

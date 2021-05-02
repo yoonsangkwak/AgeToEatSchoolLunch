@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AgeToEatSchoolLunch">
-        <activity android:name=".src.faq.FaqActivity"></activity>
+        <activity android:name=".src.allergy.AllergyActivity"></activity>
+        <activity android:name=".src.faq.FaqActivity" />
         <activity android:name=".src.license.LicenseActivity" />
         <activity android:name=".src.splash.SplashActivity">
             <intent-filter>

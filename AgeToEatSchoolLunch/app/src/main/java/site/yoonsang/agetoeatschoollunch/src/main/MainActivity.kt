@@ -13,6 +13,7 @@ import site.yoonsang.agetoeatschoollunch.R
 import site.yoonsang.agetoeatschoollunch.config.ApplicationClass
 import site.yoonsang.agetoeatschoollunch.config.BaseActivity
 import site.yoonsang.agetoeatschoollunch.databinding.ActivityMainBinding
+import site.yoonsang.agetoeatschoollunch.src.allergy.AllergyActivity
 import site.yoonsang.agetoeatschoollunch.src.faq.FaqActivity
 import site.yoonsang.agetoeatschoollunch.src.license.LicenseActivity
 import site.yoonsang.agetoeatschoollunch.src.main.adapter.VPAdapter
@@ -110,7 +111,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         val cDay = cal.get(Calendar.DAY_OF_MONTH)
 
         val picker =
-            DatePickerDialog(this, { view, year, month, dayOfMonth ->
+            DatePickerDialog(this, { _, year, month, dayOfMonth ->
                 val selectDate =
                     "${year}${String.format("%02d", month + 1)}${String.format("%02d", dayOfMonth)}"
                 getMeal(selectDate)
@@ -131,7 +132,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.mainNavView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_set_allergy -> {
-                    showCustomToast("서비스 준비중입니다.")
+                    startActivity(Intent(this, AllergyActivity::class.java))
                 }
                 R.id.nav_change_school -> {
                     startActivity(Intent(this, RegisterActivity::class.java))
