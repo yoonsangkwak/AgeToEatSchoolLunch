@@ -1,5 +1,6 @@
 package site.yoonsang.agetoeatschoollunch.src.main
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.icu.util.Calendar
@@ -31,6 +32,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private val fragmentBreakfast by lazy { BreakfastFragment() }
     private val fragmentLunch by lazy { LunchFragment() }
     private val fragmentDinner by lazy { DinnerFragment() }
+    private var presentDate = ""
+    private var presentTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +45,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         setClickSettingsMenu()
         binding.mainToolbarTitle.text = ApplicationClass.sSharedPref.getString("schoolName", null)
 
-
         val now = System.currentTimeMillis()
         val simpleDateFormat = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
         val todayDate = simpleDateFormat.format(now)!!
+        presentDate = todayDate
+        presentTime = now
 
         setSelectDate(now)
         getMeal(todayDate)
@@ -115,10 +119,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 val selectDate =
                     "${year}${String.format("%02d", month + 1)}${String.format("%02d", dayOfMonth)}"
                 getMeal(selectDate)
+                presentDate = selectDate
                 val calendar = Calendar.getInstance()
                 calendar.set(year, month, dayOfMonth)
                 val selectDateTime = calendar.timeInMillis
                 setSelectDate(selectDateTime)
+                presentTime = selectDateTime
             }, cYear, cMonth, cDay)
         picker.show()
     }
@@ -132,7 +138,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.mainNavView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_set_allergy -> {
-                    startActivity(Intent(this, AllergyActivity::class.java))
+                    startActivityForResult(Intent(this, AllergyActivity::class.java), 100)
                 }
                 R.id.nav_change_school -> {
                     startActivity(Intent(this, RegisterActivity::class.java))
@@ -171,5 +177,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                100 -> {
+                    if (binding.mainDrawerLayout.isDrawerOpen(GravityCompat.END)) {
+                        binding.mainDrawerLayout.closeDrawer(GravityCompat.END)
+                    }
+                    getMeal(presentDate)
+                    setSelectDate(presentTime)
+                }
+            }
+        }
     }
 }

@@ -1,5 +1,7 @@
 package site.yoonsang.agetoeatschoollunch.src.allergy
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.json.JSONObject
@@ -34,6 +36,9 @@ class AllergyActivity : BaseActivity<ActivityAllergyBinding>(ActivityAllergyBind
             for (allergy in allergyAdapter.data) {
                 dbHelper.updateData(allergy)
             }
+            val intent = Intent()
+            intent.putExtra("changeAllergy", true)
+            setResult(Activity.RESULT_OK, intent)
             finish()
         }
     }
