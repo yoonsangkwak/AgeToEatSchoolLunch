@@ -12,4 +12,5 @@
     <color name="main_three">#FFE5F2E1</color>
     <color name="unselected">#FFA6B2B7</color>
     <color name="carousel_arrow">#DEDEDE</color>
+    <color name="myAllergy">#FF0000</color>
 </resources>
