@@ -34,6 +34,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private val fragmentDinner by lazy { DinnerFragment() }
     private var presentDate = ""
     private var presentTime: Long = 0
+    private var backBtnTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,7 +159,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         if (binding.mainDrawerLayout.isDrawerOpen(GravityCompat.END)) {
             binding.mainDrawerLayout.closeDrawer(GravityCompat.END)
         } else {
-            super.onBackPressed()
+            val curTime = System.currentTimeMillis()
+            val gapTime = curTime - backBtnTime
+
+            if (gapTime in 0..2000) {
+                super.onBackPressed()
+            } else {
+                backBtnTime = curTime
+                showCustomToast("한번 더 누르면 종료됩니다!")
+            }
         }
     }
 

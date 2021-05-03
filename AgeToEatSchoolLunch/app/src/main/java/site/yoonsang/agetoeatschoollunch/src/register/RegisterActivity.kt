@@ -2,6 +2,7 @@ package site.yoonsang.agetoeatschoollunch.src.register
 
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import site.yoonsang.agetoeatschoollunch.config.BaseActivity
 import site.yoonsang.agetoeatschoollunch.databinding.ActivityRegisterBinding
@@ -13,6 +14,9 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        binding.registerRecyclerView.visibility = View.INVISIBLE
+        binding.registerNoResultText.visibility = View.VISIBLE
 
         binding.registerEditText.setOnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
@@ -32,6 +36,8 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
     override fun getSchoolResponseSuccess(response: SchoolResponse) {
         dismissLoadingDialog()
         if (response.schoolResponseInfo != null) {
+            binding.registerRecyclerView.visibility = View.VISIBLE
+            binding.registerNoResultText.visibility = View.INVISIBLE
             val schoolList = response.schoolResponseInfo[1].schoolInfo
             binding.registerRecyclerView.apply {
                 layoutManager = LinearLayoutManager(context)
