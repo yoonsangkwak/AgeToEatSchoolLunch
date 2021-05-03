@@ -53,7 +53,15 @@ class BreakfastFragment : BaseFragment<FragmentBreakfastBinding>(FragmentBreakfa
 
         for (splitMenu in splitMenuList) {
             val allergiesString = splitMenu.replace("[^\\d.]".toRegex(), "")
-            val allergies = allergiesString.split(".").dropLast(1)
+
+            val tempAllergies = allergiesString.split(".")
+            val allergies = mutableListOf<String>()
+            for (i in tempAllergies) {
+                if (i != "") {
+                    allergies.add(i)
+                }
+            }
+
             var allergy = ""
             for (idx in allergies.indices) {
                 allergy += if (idx != allergies.size - 1) {
