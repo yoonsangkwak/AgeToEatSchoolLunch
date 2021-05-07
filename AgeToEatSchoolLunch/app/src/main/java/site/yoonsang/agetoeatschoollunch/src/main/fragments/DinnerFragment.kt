@@ -48,32 +48,23 @@ class DinnerFragment : BaseFragment<FragmentDinnerBinding>(FragmentDinnerBinding
         }
     }
 
-    private fun setMenuPrettier(mealInfo: MealInfo, menuList: MutableList<String>, allergyList: MutableList<String>) {
+    private fun setMenuPrettier(
+        mealInfo: MealInfo,
+        menuList: MutableList<String>,
+        allergyList: MutableList<String>
+    ) {
         val splitMenuList = mealInfo.mealMenu.split("<br/>")
 
         for (splitMenu in splitMenuList) {
-            val allergiesString = splitMenu.replace("[^\\d.]".toRegex(), "")
-
-            val tempAllergies = allergiesString.split(".")
-            val allergies = mutableListOf<String>()
-            for (i in tempAllergies) {
-                if (i != "") {
-                    allergies.add(i)
-                }
-            }
-
-            var allergy = ""
-            for (idx in allergies.indices) {
-                allergy += if (idx != allergies.size - 1) {
-                    "${allergyIdToName(allergies[idx])}, "
-                } else {
-                    allergyIdToName(allergies[idx])
-                }
-            }
-            allergyList.add(allergy)
-
             val menu = splitMenu.replace("[a-zA-Z0-9]|\\.".toRegex(), "")
             menuList.add(menu)
+
+            val removedMenuString = splitMenu.replace("[^\\d.]".toRegex(), "")
+            val removedMenuList = removedMenuString.split(".")
+
+            val allergy = mutableListOf<String>()
+            removedMenuList.forEach { if (it != "") allergy.add(allergyIdToName(it)) }
+            allergyList.add(allergy.joinToString(", "))
         }
     }
 
