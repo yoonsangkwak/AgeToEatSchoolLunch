@@ -63,14 +63,14 @@ class LunchFragment :
             val menu = splitMenu.replace("[a-zA-Z0-9]|\\.".toRegex(), "")
             menuList.add(menu)
 
-            // 메뉴에 포함된 문자들을 빈 문자열로 변환해서 알러지 숫자와 .(점)만 남도록 함
+            // 메뉴에 포함된 문자들을 빈 문자열로 변환해서 알레르기 숫자와 .(점)만 남도록 함
             // ex) .1.5.6.
             val removedMenuString = splitMenu.replace("[^\\d.]".toRegex(), "")
             // .(점)을 단위로 리스트로 분할
             // ex) ["", "1", "5", "6", ""]
             val removedMenuList = removedMenuString.split(".")
 
-            // 빈 문자열을 제외한 알러지 숫자들을 이름으로 변환 후 알러지 리스트에 추가
+            // 빈 문자열을 제외한 알레르기 숫자들을 이름으로 변환 후 알레르기 리스트에 추가
             // ex) "난류, 대두, 밀"
             val allergy = mutableListOf<String>()
             removedMenuList.forEach { if (it != "") allergy.add(allergyIdToName(it)) }

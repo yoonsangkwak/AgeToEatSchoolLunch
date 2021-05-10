@@ -4,7 +4,7 @@
     <item
         android:id="@+id/nav_set_allergy"
         android:icon="@drawable/ic_bad"
-        android:title="알러지 설정하기" />
+        android:title="알레르기 설정하기" />
     <item
         android:id="@+id/nav_change_school"
         android:icon="@drawable/ic_school"
