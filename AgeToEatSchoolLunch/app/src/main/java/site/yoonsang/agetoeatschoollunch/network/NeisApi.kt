@@ -1,5 +1,6 @@
 package site.yoonsang.agetoeatschoollunch.network
 
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 import site.yoonsang.agetoeatschoollunch.model.SchoolResponse
@@ -17,5 +18,5 @@ interface NeisApi {
         @Query("pIndex") index: Int,
         @Query("pSize") size: Int,
         @Query("SCHUL_NM") schoolName: String? = null
-    ): SchoolResponse
+    ): Response<SchoolResponse>
 }

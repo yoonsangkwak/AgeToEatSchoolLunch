@@ -1,9 +1,10 @@
 package site.yoonsang.agetoeatschoollunch.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.liveData
+import retrofit2.Response
+import site.yoonsang.agetoeatschoollunch.BuildConfig
+import site.yoonsang.agetoeatschoollunch.model.SchoolResponse
 import site.yoonsang.agetoeatschoollunch.network.NeisApi
+import site.yoonsang.agetoeatschoollunch.util.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,14 +13,12 @@ class RegisterRepository @Inject constructor(
     private val neisApi: NeisApi
 ) {
 
-    fun getSchoolInfo(schoolName: String) =
-        Pager(
-            config = PagingConfig(
-                pageSize = 1,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = {
-                SchoolPagingSource(neisApi, schoolName)
-            }
-        ).liveData
+    suspend fun getSchoolInfo(schoolName: String): Response<SchoolResponse> =
+        neisApi.getSchoolInfo(
+            key = BuildConfig.KEY,
+            type = Constants.TYPE,
+            index = Constants.STARTING_PAGE_INDEX,
+            size = Constants.ITEM_MEMBERS_IN_PAGE,
+            schoolName = schoolName
+        )
 }

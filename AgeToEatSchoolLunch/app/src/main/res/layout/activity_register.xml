@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="site.yoonsang.agetoeatschoollunch.viewmodel.RegisterViewModel" />
@@ -49,7 +51,6 @@
             android:layout_margin="10dp"
             android:background="@drawable/search_school_background"
             android:padding="10dp"
-            app:layout_constraintBottom_toTopOf="@id/register_recycler_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/register_top_layout">
@@ -80,7 +81,8 @@
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:textCursorDrawable="@drawable/edit_text_cursor_background"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:bindEditorAction="@{viewModel.editorAction}" />
 
             <ImageView
                 android:id="@+id/register_edit_text_clear"
@@ -101,6 +103,7 @@
             android:gravity="center"
             android:text="검색 결과가 없습니다."
             android:textSize="18sp"
+            android:visibility="@{viewModel.searchSuccess ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -110,6 +113,9 @@
             android:id="@+id/register_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:visibility="@{viewModel.searchSuccess ? View.VISIBLE : View.GONE}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
