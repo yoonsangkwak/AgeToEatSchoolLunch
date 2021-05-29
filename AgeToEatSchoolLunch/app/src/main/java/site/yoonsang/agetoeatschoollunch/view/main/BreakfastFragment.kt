@@ -1,4 +1,4 @@
-package site.yoonsang.agetoeatschoollunch.view.main.fragments
+package site.yoonsang.agetoeatschoollunch.view.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,30 +6,30 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONObject
 import site.yoonsang.agetoeatschoollunch.R
-import site.yoonsang.agetoeatschoollunch.databinding.FragmentDinnerBinding
+import site.yoonsang.agetoeatschoollunch.databinding.FragmentBreakfastBinding
 import site.yoonsang.agetoeatschoollunch.model.MealInfo
-import site.yoonsang.agetoeatschoollunch.view.main.fragments.adapter.MealAdapter
-import site.yoonsang.agetoeatschoollunch.view.main.fragments.adapter.MealOriginAdapter
+import site.yoonsang.agetoeatschoollunch.util.Constants
+import site.yoonsang.agetoeatschoollunch.viewmodel.MainViewModel
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
 @AndroidEntryPoint
-class DinnerFragment : Fragment() {
+class BreakfastFragment : Fragment() {
 
-    private var _binding: FragmentDinnerBinding? = null
+    private var _binding: FragmentBreakfastBinding? = null
     private val binding get() = _binding!!
+    private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_dinner, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_breakfast, container, false)
         return binding.root
     }
 
@@ -41,30 +41,28 @@ class DinnerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (arguments == null) {
-            binding.dinnerNestedScrollView.visibility = View.GONE
-            binding.dinnerNoDietText.visibility = View.VISIBLE
-        } else {
-            binding.dinnerNestedScrollView.visibility = View.VISIBLE
-            binding.dinnerNoDietText.visibility = View.GONE
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
-            val mealInfo = arguments?.getSerializable("meal") as MealInfo
 
-            binding.dinnerCalText.text = mealInfo.calInfo
-            val menuList = mutableListOf<String>()
-            val allergyList = mutableListOf<String>()
-            setMenuPrettier(mealInfo, menuList, allergyList)
-            val originList = mealInfo.mealOrigin.split("<br/>")
-//            val myAllergyList = getMyAllergies()
-//
-//            binding.dinnerMenuRecyclerView.apply {
-//                layoutManager = LinearLayoutManager(context)
-//                adapter = MealAdapter(context, menuList, allergyList, myAllergyList)
-//            }
+        if (arguments != null) {
+            val mealInfo = requireArguments().getSerializable("meal") as MealInfo
+            binding.breakfastCalText.text = mealInfo.calInfo
 
-            binding.dinnerOriginRecyclerView.apply {
-                layoutManager = GridLayoutManager(context, 2)
-                adapter = MealOriginAdapter(context, originList)
+            binding.breakfastOriginBtn.setOnClickListener {
+                val originDialog = OriginDialog()
+                val bundle = Bundle()
+                bundle.putString("origin", mealInfo.mealOrigin)
+                originDialog.arguments = bundle
+                originDialog.show(childFragmentManager, Constants.ORIGIN_DIALOG)
+            }
+
+            binding.breakfastNutrientsBtn.setOnClickListener {
+                val nutrientsDialog = NutrientsDialog()
+                val bundle = Bundle()
+                bundle.putString("nutrient", mealInfo.ntrInfo)
+                nutrientsDialog.arguments = bundle
+                nutrientsDialog.show(childFragmentManager, Constants.NUTRIENTS_DIALOG)
             }
         }
     }

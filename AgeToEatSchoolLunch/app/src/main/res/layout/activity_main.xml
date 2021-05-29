@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="site.yoonsang.agetoeatschoollunch.viewmodel.MainViewModel" />
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -30,6 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/kotrabold"
+                    android:text="@{viewModel.schoolName}"
                     android:textColor="@color/main_one"
                     android:textSize="18sp"
                     tools:text="성문고등학교" />
@@ -44,6 +47,7 @@
                 android:fontFamily="@font/eland"
                 android:textColor="@color/black"
                 android:textSize="20sp"
+                android:text="@{viewModel.selectDate}"
                 app:layout_constraintBottom_toTopOf="@id/main_meal_time_tab_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
