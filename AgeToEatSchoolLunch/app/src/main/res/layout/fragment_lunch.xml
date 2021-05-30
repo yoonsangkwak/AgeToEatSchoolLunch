@@ -1,79 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".src.main.fragments.LunchFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/lunch_no_diet_text"
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="site.yoonsang.agetoeatschoollunch.viewmodel.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fontFamily="@font/eland"
-        android:visibility="gone"
-        android:gravity="center"
-        android:text="중식 식단정보가 없습니다."
-        android:textSize="18sp" />
+        tools:context=".src.main.fragments.LunchFragment">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/lunch_nested_scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/lunch_no_diet_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:fontFamily="@font/eland"
+            android:gravity="center"
+            android:text="중식 식단정보가 없습니다."
+            android:textSize="18sp"
+            android:visibility="@{viewModel.noLunch ? View.VISIBLE : View.GONE}" />
 
-            <TextView
-                android:id="@+id/lunch_cal_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginVertical="50dp"
-                android:fontFamily="@font/kotrabold"
-                android:textColor="@color/main_one"
-                android:textSize="24sp"
-                tools:text="888.8 Kcal" />
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/lunch_nested_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.noLunch ? View.GONE : View.VISIBLE}">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lunch_menu_recycler_view"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/item_menu" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lunch_origin_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/item_origin" />
+                <TextView
+                    android:id="@+id/lunch_cal_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="50dp"
+                    android:fontFamily="@font/kotrabold"
+                    android:text="@{viewModel.mealLunch.calInfo}"
+                    android:textColor="@color/main_one"
+                    android:textSize="24sp"
+                    tools:text="888.8 Kcal" />
 
-        </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/lunch_menu_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_menu" />
 
-    </androidx.core.widget.NestedScrollView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:elevation="10dp"
-        android:src="@drawable/ic_previous"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/carousel_arrow" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/lunch_nutrients_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_unselected_background"
+                        android:text="영양분"
+                        android:textColor="@color/main_one"
+                        android:textStyle="bold" />
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:elevation="10dp"
-        android:src="@drawable/ic_next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/carousel_arrow" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/lunch_origin_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_unselected_background"
+                        android:text="원산지"
+                        android:textColor="@color/main_one"
+                        android:textStyle="bold" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
