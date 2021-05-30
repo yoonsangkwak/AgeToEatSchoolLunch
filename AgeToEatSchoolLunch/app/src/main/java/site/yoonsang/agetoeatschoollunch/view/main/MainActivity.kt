@@ -5,7 +5,6 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -41,10 +40,9 @@ class MainActivity : AppCompatActivity() {
     private val fragmentBreakfast by lazy { BreakfastFragment() }
     private val fragmentLunch by lazy { LunchFragment() }
     private val fragmentDinner by lazy { DinnerFragment() }
-
-    //    private var presentDate = ""
-    private var presentTime: Long = 0
     private var backBtnTime: Long = 0
+    private var presentDate = ""
+    private var presentTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,55 +65,19 @@ class MainActivity : AppCompatActivity() {
         val now = System.currentTimeMillis()
         val simpleDateFormat = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
         val todayDate = simpleDateFormat.format(now)!!
-//        presentDate = todayDate
+        presentDate = todayDate
         presentTime = now
 
         viewModel.setSelectDate(now)
         getMealResponse(todayDate)
+        setViewPager()
 
         viewModel.toastMessage.observe(this) {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         }
-
-        viewModel.noMeal.observe(this) {
-            Log.d("checkkk", "nm $it")
-
-
-            if (it == true) {
-                fragmentBreakfast.arguments = null
-                fragmentLunch.arguments = null
-                fragmentDinner.arguments = null
-            }
-                setViewPager()
-        }
-
-        viewModel.mealInfo.observe(this) {
-            Log.d("checkkk", "mi $it")
-            for (meal in it) {
-                when (meal.mealType) {
-                    "조식" -> {
-                        val bundle = Bundle()
-                        bundle.putSerializable("meal", meal)
-                        fragmentBreakfast.arguments = bundle
-                    }
-                    "중식" -> {
-                        val bundle = Bundle()
-                        bundle.putSerializable("meal", meal)
-                        fragmentLunch.arguments = bundle
-                    }
-                    "석식" -> {
-                        val bundle = Bundle()
-                        bundle.putSerializable("meal", meal)
-                        fragmentDinner.arguments = bundle
-                    }
-                }
-            }
-            setViewPager()
-        }
     }
 
     private fun setViewPager() {
-        Log.d("checkkk", "svp")
         val tabTextList = arrayListOf("조식", "중식", "석식")
         val fragmentList = arrayListOf(fragmentBreakfast, fragmentLunch, fragmentDinner)
         val vpAdapter = VPAdapter(supportFragmentManager, lifecycle, fragmentList)
@@ -145,11 +107,11 @@ class MainActivity : AppCompatActivity() {
                 val selectDate =
                     "${year}${String.format("%02d", month + 1)}${String.format("%02d", dayOfMonth)}"
                 getMealResponse(selectDate)
-//                presentDate = selectDate
                 val calendar = Calendar.getInstance()
                 calendar.set(year, month, dayOfMonth)
                 val selectDateTime = calendar.timeInMillis
                 viewModel.setSelectDate(selectDateTime)
+                viewModel.changeDate()
                 presentTime = selectDateTime
             }, cYear, cMonth, cDay)
         picker.show()
@@ -162,7 +124,7 @@ class MainActivity : AppCompatActivity() {
                     if (binding.mainDrawerLayout.isDrawerOpen(GravityCompat.END)) {
                         binding.mainDrawerLayout.closeDrawer(GravityCompat.END)
                     }
-                    viewModel.setSelectDate(presentTime)
+//                    viewModel.setSelectDate(presentTime)
                 }
             }
 

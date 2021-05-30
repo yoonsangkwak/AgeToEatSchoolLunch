@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import site.yoonsang.agetoeatschoollunch.model.Allergy
 import site.yoonsang.agetoeatschoollunch.model.MealInfo
 import site.yoonsang.agetoeatschoollunch.repository.MainRepository
 import java.io.IOException
@@ -31,20 +30,34 @@ class MainViewModel @Inject constructor(
     val toastMessage: LiveData<String>
         get() = _toastMessage
 
-    private val _mealInfo = MutableLiveData<List<MealInfo>>()
-    val mealInfo: LiveData<List<MealInfo>>
-        get() = _mealInfo
+    private val _mealBreakfast = MutableLiveData<MealInfo>()
+    val mealBreakfast: LiveData<MealInfo>
+        get() = _mealBreakfast
 
-    private val _noMeal = MutableLiveData<Boolean>()
-    val noMeal: LiveData<Boolean>
-        get() = _noMeal
+    private val _mealLunch = MutableLiveData<MealInfo>()
+    val mealLunch: LiveData<MealInfo>
+        get() = _mealLunch
 
-    val allergies = repository.getAllergies()
+    private val _mealDinner = MutableLiveData<MealInfo>()
+    val mealDinner: LiveData<MealInfo>
+        get() = _mealDinner
+
+    private val _noBreakfast = MutableLiveData<Boolean>()
+    val noBreakfast: LiveData<Boolean>
+        get() = _noBreakfast
+
+    private val _noLunch = MutableLiveData<Boolean>()
+    val noLunch: LiveData<Boolean>
+        get() = _noLunch
+
+    private val _noDinner = MutableLiveData<Boolean>()
+    val noDinner: LiveData<Boolean>
+        get() = _noDinner
 
     init {
-        _schoolName.value = ""
-        _selectDate.value = ""
-        _noMeal.value = false
+        _noBreakfast.value = true
+        _noLunch.value = true
+        _noDinner.value = true
     }
 
     fun getMealResponse(officeCode: String, schoolCode: String, mealDate: String) {
@@ -56,16 +69,34 @@ class MainViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     val mealResponseInfo = response.body()?.mealResponseInfo
                     if (mealResponseInfo != null) {
-                        _mealInfo.postValue(mealResponseInfo[1].mealInfo)
-                        _noMeal.postValue(false)
-                    } else {
-                        _noMeal.postValue(true)
+                        for (mealInfo in mealResponseInfo[1].mealInfo) {
+                            when (mealInfo.mealType) {
+                                "조식" -> {
+                                    _mealBreakfast.postValue(mealInfo)
+                                    _noBreakfast.postValue(false)
+                                }
+                                "중식" -> {
+                                    _mealLunch.postValue(mealInfo)
+                                    _noLunch.postValue(false)
+                                }
+                                "석식" -> {
+                                    _mealDinner.postValue(mealInfo)
+                                    _noDinner.postValue(false)
+                                }
+                            }
+                        }
                     }
                 }
             } catch (e: IOException) {
                 _toastMessage.postValue("네트워크 통신에 실패했습니다")
             }
         }
+    }
+
+    fun changeDate() {
+        _noBreakfast.postValue(true)
+        _noLunch.postValue(true)
+        _noDinner.postValue(true)
     }
 
     fun setSchoolName(schoolName: String) {
@@ -76,17 +107,5 @@ class MainViewModel @Inject constructor(
         val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd (E)", Locale.KOREA)
         val selectDate = simpleDateFormat.format(time)
         _selectDate.postValue(selectDate)
-    }
-
-    fun insert(allergy: Allergy) {
-        viewModelScope.launch {
-            repository.insert(allergy)
-        }
-    }
-
-    fun delete(allergy: Allergy) {
-        viewModelScope.launch {
-            repository.delete(allergy)
-        }
     }
 }

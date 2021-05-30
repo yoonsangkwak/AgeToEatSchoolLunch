@@ -6,13 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONObject
 import site.yoonsang.agetoeatschoollunch.R
 import site.yoonsang.agetoeatschoollunch.databinding.FragmentDinnerBinding
 import site.yoonsang.agetoeatschoollunch.model.MealInfo
+import site.yoonsang.agetoeatschoollunch.model.MealMenu
 import site.yoonsang.agetoeatschoollunch.util.Constants
+import site.yoonsang.agetoeatschoollunch.view.main.adapter.MealAdapter
+import site.yoonsang.agetoeatschoollunch.viewmodel.AllergyViewModel
 import site.yoonsang.agetoeatschoollunch.viewmodel.MainViewModel
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -22,7 +26,8 @@ class DinnerFragment : Fragment() {
 
     private var _binding: FragmentDinnerBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<MainViewModel>()
+    private val viewModel by activityViewModels<MainViewModel>()
+    private val allergyViewModel by viewModels<AllergyViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,10 +49,13 @@ class DinnerFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        val mealAdapter = MealAdapter(requireContext(), allergyViewModel, viewLifecycleOwner)
+        binding.dinnerMenuRecyclerView.adapter = mealAdapter
 
-        if (arguments != null) {
-            val mealInfo = requireArguments().getSerializable("meal") as MealInfo
-            binding.dinnerCalText.text = mealInfo.calInfo
+        viewModel.mealDinner.observe(viewLifecycleOwner) { mealInfo ->
+
+            val mealMenuList = getMealMenu(mealInfo)
+            mealAdapter.submitList(mealMenuList)
 
             binding.dinnerOriginBtn.setOnClickListener {
                 val originDialog = OriginDialog()
@@ -67,24 +75,27 @@ class DinnerFragment : Fragment() {
         }
     }
 
-    private fun setMenuPrettier(
-        mealInfo: MealInfo,
-        menuList: MutableList<String>,
-        allergyList: MutableList<String>
-    ) {
+    private fun getMealMenu(
+        mealInfo: MealInfo
+    ): MutableList<MealMenu> {
+        val mealMenuList = mutableListOf<MealMenu>()
+
         val splitMenuList = mealInfo.mealMenu.split("<br/>")
 
         for (splitMenu in splitMenuList) {
             val menu = splitMenu.replace("[a-zA-Z0-9]|\\.".toRegex(), "")
-            menuList.add(menu)
 
             val removedMenuString = splitMenu.replace("[^\\d.]".toRegex(), "")
             val removedMenuList = removedMenuString.split(".")
 
-            val allergy = mutableListOf<String>()
-            removedMenuList.forEach { if (it != "") allergy.add(allergyIdToName(it)) }
-            allergyList.add(allergy.joinToString(", "))
+            val allergyList = mutableListOf<String>()
+            removedMenuList.forEach { if (it != "") allergyList.add(allergyIdToName(it)) }
+            val allergy = allergyList.joinToString(", ")
+
+            val mealMenu = MealMenu(menu, allergy)
+            mealMenuList.add(mealMenu)
         }
+        return mealMenuList
     }
 
     private fun allergyIdToName(allergyId: String): String {
@@ -104,15 +115,4 @@ class DinnerFragment : Fragment() {
         val jsonObject = JSONObject(jsonData)
         return jsonObject.optString(allergyId, "")
     }
-
-//    private fun getMyAllergies(): ArrayList<String> {
-//        val dbHelper = ApplicationClass.sDBHelper
-//        val myAllergies = arrayListOf<String>()
-//        for (allergy in dbHelper.selectAllData()) {
-//            if (allergy.checked == 1) {
-//                myAllergies.add(allergy.name)
-//            }
-//        }
-//        return myAllergies
-//    }
 }

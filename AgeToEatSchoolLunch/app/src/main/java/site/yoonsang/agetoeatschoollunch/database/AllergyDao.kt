@@ -10,9 +10,9 @@ interface AllergyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(allergy: Allergy)
 
-    @Query("select * from allergy_table")
+    @Query("select * from allergy_table order by id asc")
     fun getAllergies(): LiveData<List<Allergy>>
 
-    @Delete
-    suspend fun delete(allergy: Allergy)
+    @Update
+    suspend fun update(allergy: Allergy)
 }
