@@ -2,8 +2,9 @@ package site.yoonsang.agetoeatschoollunch.view.faq
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.databinding.DataBindingUtil
 import dagger.hilt.android.AndroidEntryPoint
+import site.yoonsang.agetoeatschoollunch.R
 import site.yoonsang.agetoeatschoollunch.databinding.ActivityFaqBinding
 import site.yoonsang.agetoeatschoollunch.view.faq.adapter.FAQAdapter
 
@@ -14,11 +15,8 @@ class FaqActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFaqBinding.inflate(layoutInflater)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_faq)
 
-        binding.faqRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = FAQAdapter(context)
-        }
+        binding.faqRecyclerView.adapter = FAQAdapter(this)
     }
 }
