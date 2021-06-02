@@ -1,10 +1,25 @@
-## 급식먹을나이 (AgeToEatSchoolLunch)
+# 급식먹을나이 (AgeToEatSchoolLunch)
 
+## Introduction
 - https://play.google.com/store/apps/details?id=site.yoonsang.agetoeatschoollunch
 - 급식먹을나이는 각 학교 급식 식단을 알려주는 어플입니다.
-- Retrofit2, OkHttp3 등의 라이브러리가 사용되었습니다.
+- Retrofit2, Coroutine, Dagger-Hilt 등의 라이브러리가 사용되었습니다.
 - 나이스 교육정보 공개 포털에서 제공하는 데이터를 사용합니다.
 
+
+## Development Environment
+- Android Studio @4.2.1
+
+## Sdk version
+- minSdkVersion : 24
+- targetSdkVersion : 30
+
+## Architecture Pattern
+![image](https://user-images.githubusercontent.com/67727981/120478697-165db100-c3e8-11eb-8803-be3d98ba2aea.png)
+
+
+
+## Scennshot
 <img src="https://user-images.githubusercontent.com/67727981/116844834-3baba380-ac1f-11eb-8733-8ed8342193f4.png" width="400" height="800"> 
 
 
